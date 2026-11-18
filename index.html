@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Praveer Tiwari</title>
+<meta name="description" content="Praveer Tiwari, physicist working on gravitational waves, neutron-star equation of state, Bayesian inference and scientific machine learning.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!--
+  ================================================================
+  HOW TO EDIT THIS SITE
+  ----------------------------------------------------------------
+  Everything you will normally change is plain text between the
+  HTML tags below. Look for comments that start with  EDIT:
+  To add a paper, copy one <li class="pub"> ... </li> block in the
+  Publications section and change the text and links.
+  Save / commit the file and the site updates in about a minute.
+  ================================================================
+-->
+<style>
+:root {
+  /* Layout: fixed left identity column + reading column; stacks on phones. */
+  --paper: #f5f6f8;
+  --surface: #ffffff;
+  --ink: #161a24;
+  --muted: #5a6172;
+  --rule: #dfe2e9;
+  --accent: #2446c7;       /* cobalt: links, waveform */
+  --accent-soft: #e7ecfb;
+  --signal: #b4511a;       /* ringdown / student marker */
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0f1219; --surface: #161a24; --ink: #e7e9ef; --muted: #9aa1b2;
+    --rule: #262c3a; --accent: #8ea6ff; --accent-soft: #1d2540; --signal: #f0915a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0f1219; --surface: #161a24; --ink: #e7e9ef; --muted: #9aa1b2;
+  --rule: #262c3a; --accent: #8ea6ff; --accent-soft: #1d2540; --signal: #f0915a;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font-family: var(--font-body); font-size: 16px; line-height: 1.6;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 500; text-wrap: balance; line-height: 1.2; margin: 0; }
+p { margin: 0; }
+
+.layout {
+  display: grid; grid-template-columns: 300px minmax(0, 1fr);
+  gap: 56px; max-width: 1120px; margin: 0 auto; padding: 48px 32px 64px;
+}
+
+/* ---------- Identity column ---------- */
+.side { position: sticky; top: 40px; align-self: start; display: grid; gap: 22px; }
+.portrait {
+  width: 132px; height: 132px; border-radius: 50%; overflow: hidden;
+  background: var(--accent-soft); display: grid; place-items: center;
+  font-family: var(--font-display); font-size: 46px; color: var(--accent);
+  border: 1px solid var(--rule);
+}
+.portrait img { width: 100%; height: 100%; object-fit: cover; }
+.side h1 { font-size: 34px; }
+.role { color: var(--muted); font-size: 15px; }
+.role strong { color: var(--ink); font-weight: 500; display: block; }
+.contact { display: grid; gap: 6px; font-size: 14.5px; }
+.contact a { display: flex; gap: 10px; align-items: center; }
+.contact svg { width: 16px; height: 16px; flex: none; stroke: currentColor; fill: none; stroke-width: 1.6; }
+nav.toc { display: grid; gap: 2px; border-top: 1px solid var(--rule); padding-top: 18px; }
+nav.toc a { color: var(--muted); font-size: 14px; padding: 3px 0; }
+nav.toc a:hover { color: var(--ink); text-decoration: none; }
+
+/* ---------- Main column ---------- */
+main { display: grid; gap: 64px; min-width: 0; }
+section { display: grid; gap: 20px; scroll-margin-top: 24px; }
+.eyebrow {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--muted);
+  display: flex; align-items: center; gap: 12px;
+}
+.eyebrow::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
+h2 { font-size: 30px; }
+.lede { font-family: var(--font-display); font-size: 22px; line-height: 1.45; max-width: 36em; }
+.prose { display: grid; gap: 14px; max-width: 42em; color: var(--ink); }
+.muted { color: var(--muted); }
+
+.wave { width: 100%; height: 96px; display: block; }
+.wave-caption { font-family: var(--font-mono); font-size: 11.5px; color: var(--muted); margin-top: -8px; }
+
+/* figures row */
+.figures { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; }
+.figure { background: var(--surface); padding: 16px 18px; display: grid; gap: 4px; }
+.figure b { font-family: var(--font-display); font-weight: 500; font-size: 24px; font-variant-numeric: tabular-nums; }
+.figure span { font-size: 13.5px; color: var(--muted); line-height: 1.4; }
+
+/* research themes */
+.themes { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.theme { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 20px; display: grid; gap: 8px; align-content: start; }
+.theme h3 { font-size: 20px; }
+.theme p { font-size: 15px; color: var(--muted); }
+.theme .refs { font-family: var(--font-mono); font-size: 12px; }
+
+/* publications */
+.pubgroup { display: grid; gap: 12px; }
+.pubgroup h3 { font-family: var(--font-mono); font-size: 12.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+ol.pubs { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; border-top: 1px solid var(--rule); }
+.pub { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--rule); }
+.pub .yr { font-family: var(--font-mono); font-size: 13px; color: var(--muted); padding-top: 3px; font-variant-numeric: tabular-nums; }
+.pub .title { font-family: var(--font-display); font-size: 19px; line-height: 1.35; }
+.pub .authors { font-size: 14.5px; color: var(--muted); }
+.pub .authors .me { color: var(--ink); font-weight: 600; }
+.pub .authors .st { color: var(--signal); }
+.pub .venue { font-size: 14.5px; font-style: italic; }
+.pub .links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.chip { font-family: var(--font-mono); font-size: 12px; padding: 2px 9px; border: 1px solid var(--rule); border-radius: 999px; color: var(--accent); background: var(--surface); }
+.chip:hover { border-color: var(--accent); text-decoration: none; }
+.note { font-size: 13.5px; color: var(--muted); }
+.note .st { color: var(--signal); font-weight: 600; }
+
+/* timeline / lists */
+.rows { display: grid; border-top: 1px solid var(--rule); }
+.row { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--rule); }
+.row .when { font-family: var(--font-mono); font-size: 13px; color: var(--muted); padding-top: 2px; font-variant-numeric: tabular-nums; }
+.row .what b { font-weight: 600; }
+.row .what p { color: var(--muted); font-size: 15px; }
+
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 28px; }
+ul.plain { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+ul.plain li::marker { color: var(--accent); }
+.tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag { font-size: 13.5px; padding: 4px 11px; border-radius: 6px; background: var(--accent-soft); color: var(--ink); }
+
+.approach { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; counter-reset: ap; }
+.approach div { border-top: 2px solid var(--accent); padding-top: 10px; display: grid; gap: 4px; }
+.approach b { font-weight: 600; }
+.approach p { font-size: 14.5px; color: var(--muted); }
+
+footer { grid-column: 1 / -1; border-top: 1px solid var(--rule); padding-top: 20px; font-size: 13px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
+
+@media (max-width: 860px) {
+  .layout { grid-template-columns: 1fr; gap: 40px; padding: 28px 18px 48px; }
+  .side { position: static; }
+  nav.toc { display: flex; flex-wrap: wrap; gap: 4px 16px; }
+  .row { grid-template-columns: 1fr; gap: 2px; }
+  .pub { grid-template-columns: 1fr; gap: 4px; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- ===================== LEFT COLUMN ===================== -->
+  <aside class="side">
+    <!-- EDIT: to use a photo, upload photo.jpg next to this file and
+         replace the "PT" line below with:  <img src="photo.jpg" alt="Praveer Tiwari"> -->
+    <div class="portrait" aria-hidden="true">PT</div>
+
+    <div>
+      <h1>Praveer Tiwari</h1>
+    </div>
+    <div class="role">
+      <strong>ANRF Postdoctoral Fellow</strong>
+      Chennai Mathematical Institute<br>
+      Member, LIGO–Virgo–KAGRA Collaboration
+    </div>
+
+    <div class="contact">
+      <!-- EDIT: contact links -->
+      <a href="mailto:praveert@cmi.ac.in">
+        <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+        praveert@cmi.ac.in</a>
+      <a href="mailto:ptiwari3009@gmail.com">
+        <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+        ptiwari3009@gmail.com</a>
+      <a href="https://scholar.google.co.in/citations?user=SgCjc9UAAAAJ&amp;hl=en">
+        <svg viewBox="0 0 24 24"><path d="M12 3 2 9l10 6 10-6-10-6Z"/><path d="M6 11.5V16c0 1.5 2.7 3 6 3s6-1.5 6-3v-4.5"/></svg>
+        Google Scholar</a>
+      <a href="https://arxiv.org/search/?searchtype=author&amp;query=Tiwari%2C+Praveer">
+        <svg viewBox="0 0 24 24"><path d="M5 4h10l4 4v12H5z"/><path d="M14 4v5h5M8 13h8M8 17h6"/></svg>
+        arXiv</a>
+      <!-- EDIT: uncomment after uploading cv.pdf next to this file
+      <a href="cv.pdf">
+        <svg viewBox="0 0 24 24"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/></svg>
+        Download CV (PDF)</a>
+      -->
+    </div>
+
+    <nav class="toc" aria-label="Sections">
+      <a href="#about">About</a>
+      <a href="#research">Research</a>
+      <a href="#publications">Publications</a>
+      <a href="#students">Students</a>
+      <a href="#teaching">Teaching</a>
+      <a href="#outreach">Outreach</a>
+      <a href="#cv">Experience &amp; education</a>
+    </nav>
+  </aside>
+
+  <!-- ===================== MAIN COLUMN ===================== -->
+  <main>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <canvas class="wave" id="wave" role="img" aria-label="Illustration of a gravitational-wave chirp: an inspiral signal rising in frequency and amplitude, then a short ringdown."></canvas>
+      <p class="wave-caption">h(t) · inspiral → merger → ringdown</p>
+      <p class="lede">I turn gravitational-wave and multi-messenger observations into fast, trustworthy measurements of dense nuclear matter and of how black-hole binaries form.</p>
+      <div class="prose">
+        <p>I am a physicist working at the meeting point of gravitational-wave astronomy, nuclear astrophysics and data science. My work builds machine-learning surrogates that make neutron-star physics fast enough to run on every detection, and Bayesian inference pipelines that keep the errors of those surrogates visible.</p>
+        <p>I am currently an ANRF Postdoctoral Fellow at the Chennai Mathematical Institute. Before that I was an Institute Postdoctoral Fellow at IIT Bombay, and I received my PhD in Physics from Washington State University in 2023. I am a member of the LIGO–Virgo–KAGRA Collaboration and represent the LIGO extreme-matter group in the LIGO-India Scientific Collaboration.</p>
+      </div>
+      <div class="figures" aria-label="Selected results">
+        <div class="figure"><b>12.3–12.5 km</b><span>radius of a 1.4 M<sub>☉</sub> neutron star from nuclear-theory priors</span></div>
+        <div class="figure"><b>~8×</b><span>speed-up of Deep-TOV over RePrimAnd at ~0.1% error</span></div>
+        <div class="figure"><b>~0.55 km</b><span>radius uncertainty from stacked post-merger signals (A+)</span></div>
+        <div class="figure"><b>~5 min</b><span>eccentricity constrained to within 0.2 on 50 cores</span></div>
+      </div>
+    </section>
+
+    <!-- RESEARCH -->
+    <section id="research">
+      <div class="eyebrow">Research</div>
+      <h2>Research interests</h2>
+      <div class="themes">
+        <!-- EDIT: one <div class="theme"> per research theme -->
+        <div class="theme">
+          <h3>Dense-matter equation of state</h3>
+          <p>A multi-messenger framework that joins chiral effective field theory and phenomenological nuclear priors to an agnostic core, constrained by GW170817, NICER and heavy pulsars.</p>
+          <span class="refs"><a href="https://arxiv.org/abs/2306.04386">arXiv:2306.04386</a></span>
+        </div>
+        <div class="theme">
+          <h3>Machine learning for neutron stars</h3>
+          <p>Deep-TOV, a physics-informed network that maps an equation of state to neutron-star mass and radius, now being integrated into LALSuite for low-latency use.</p>
+          <span class="refs"><a href="https://arxiv.org/abs/2405.08163">arXiv:2405.08163</a></span>
+        </div>
+        <div class="theme">
+          <h3>Post-merger signals &amp; next-generation detectors</h3>
+          <p>Hierarchical Bayesian stacking of binary-neutron-star post-merger signals, and forecasts for LIGO-India and third-generation observatories.</p>
+          <span class="refs"><a href="https://arxiv.org/abs/2505.21667">arXiv:2505.21667</a></span>
+        </div>
+        <div class="theme">
+          <h3>Eccentric binary black holes</h3>
+          <p>Fast time–frequency methods that constrain orbital eccentricity, a key signature of how black-hole binaries form in dense stellar environments.</p>
+          <span class="refs"><a href="https://arxiv.org/abs/2603.09150">arXiv:2603.09150</a></span>
+        </div>
+        <div class="theme">
+          <h3>Waveform modelling</h3>
+          <p>Mode mixing in higher-multipole waveforms for non-spinning binary black holes, with faithfulness above 99.6%.</p>
+          <span class="refs"><a href="https://doi.org/10.1103/PhysRevD.100.024032">Phys. Rev. D 100, 024032</a></span>
+        </div>
+        <div class="theme">
+          <h3>Current directions</h3>
+          <p>Extending Deep-TOV to tidal deformability and finite-temperature matter; testing whether all neutron stars share one equation of state; detecting gravitational-wave memory with the LIGO-India network.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PUBLICATIONS -->
+    <section id="publications">
+      <div class="eyebrow">Publications</div>
+      <h2>Publications</h2>
+      <p class="note">For the complete and up-to-date list, including LIGO–Virgo–KAGRA collaboration papers, see <a href="https://scholar.google.co.in/citations?user=SgCjc9UAAAAJ&amp;hl=en">Google Scholar</a>. <span class="st">Highlighted</span> co-authors are students I supervised.</p>
+
+      <div class="pubgroup">
+        <h3>Journal articles</h3>
+        <ol class="pubs">
+          <!-- EDIT: copy one <li class="pub"> ... </li> block to add a paper (newest first) -->
+          <li class="pub">
+            <span class="yr">2026</span>
+            <div>
+              <div class="title">Deep Tolman–Oppenheimer–Volkoff equation to characterize neutron stars</div>
+              <div class="authors"><span class="me">P. Tiwari</span>, A. Pai</div>
+              <div class="venue">Journal of Astrophysics and Astronomy (2026)</div>
+              <div class="links"><a class="chip" href="https://arxiv.org/abs/2405.08163">arXiv</a></div>
+            </div>
+          </li>
+          <li class="pub">
+            <span class="yr">2022</span>
+            <div>
+              <div class="title">Pseudo pair potential between protons in dense hydrogen from first principles</div>
+              <div class="authors">R. S. Robinson, <span class="me">P. Tiwari</span>, J. M. McMahon</div>
+              <div class="venue">Molecular Physics (2022)</div>
+              <!-- EDIT: add a DOI link here, e.g. <div class="links"><a class="chip" href="https://doi.org/...">DOI</a></div> -->
+            </div>
+          </li>
+          <li class="pub">
+            <span class="yr">2019</span>
+            <div>
+              <div class="title">Including mode mixing in a higher-multipole model for gravitational waveforms from nonspinning black-hole binaries</div>
+              <div class="authors">A. K. Mehta, <span class="me">P. Tiwari</span>, N. K. Johnson-McDaniel, C. K. Mishra, V. Varma, P. Ajith</div>
+              <div class="venue">Physical Review D 100, 024032 (2019)</div>
+              <div class="links"><a class="chip" href="https://doi.org/10.1103/PhysRevD.100.024032">DOI</a></div>
+            </div>
+          </li>
+        </ol>
+      </div>
+
+      <div class="pubgroup">
+        <h3>Preprints</h3>
+        <ol class="pubs">
+          <li class="pub">
+            <span class="yr">2026</span>
+            <div>
+              <div class="title">Binary black hole inspirals cannot hide their eccentricity</div>
+              <div class="authors"><span class="st">J. Fernandes</span>, <span class="me">P. Tiwari</span>, A. Pai</div>
+              <div class="venue">arXiv preprint</div>
+              <div class="links"><a class="chip" href="https://arxiv.org/abs/2603.09150">arXiv:2603.09150</a></div>
+            </div>
+          </li>
+          <li class="pub">
+            <span class="yr">2025</span>
+            <div>
+              <div class="title">Prospect of constraining the EoS of neutron stars using post-merger signals</div>
+              <div class="authors"><span class="st">S. Mitra</span>, <span class="me">P. Tiwari</span>, A. Pai</div>
+              <div class="venue">arXiv preprint</div>
+              <div class="links"><a class="chip" href="https://arxiv.org/abs/2505.21667">arXiv:2505.21667</a></div>
+            </div>
+          </li>
+          <li class="pub">
+            <span class="yr">2023</span>
+            <div>
+              <div class="title">Framework for multi-messenger inference from neutron stars: combining nuclear theory priors</div>
+              <div class="authors"><span class="me">P. Tiwari</span>, D. Zhou, B. Biswas, M. McNeil Forbes, S. Bose</div>
+              <div class="venue">arXiv preprint</div>
+              <div class="links"><a class="chip" href="https://arxiv.org/abs/2306.04386">arXiv:2306.04386</a></div>
+            </div>
+          </li>
+        </ol>
+      </div>
+
+      <div class="pubgroup">
+        <h3>Thesis</h3>
+        <ol class="pubs">
+          <li class="pub">
+            <span class="yr">2023</span>
+            <div>
+              <div class="title">Learning about neutron stars &amp; black holes using multi-messenger observations of binary systems</div>
+              <div class="authors"><span class="me">P. Tiwari</span>, PhD dissertation</div>
+              <div class="venue">Washington State University (2023)</div>
+              <div class="links"><a class="chip" href="https://doi.org/10.7273/000005233">DOI</a></div>
+            </div>
+          </li>
+        </ol>
+      </div>
+
+      <div class="pubgroup">
+        <h3>Selected talks</h3>
+        <div class="rows">
+          <div class="row"><span class="when">Jun 2026</span><div class="what"><b>Probing uniqueness of the equation of state of neutron stars in the next generation of gravitational-wave detectors</b><p>Finite-Temperature Effects in Multi-Messenger Astrophysics, Institute for Nuclear Theory, Seattle</p></div></div>
+          <div class="row"><span class="when">2024</span><div class="what"><b>Learning the equation-of-state to observable map for neutron stars</b><p>Poster, Astronomical Society of India meeting (ASI 2024)</p></div></div>
+          <div class="row"><span class="when">2023</span><div class="what"><b>Deep-TOV for characterizing neutron stars</b><p>Oral, 10th International Conference on Gravitation and Cosmology (ICGC 2023)</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STUDENTS -->
+    <section id="students">
+      <div class="eyebrow">Mentoring</div>
+      <h2>Students</h2>
+      <div class="prose"><p>I have guided six students across three levels of study on gravitational-wave data analysis and neutron-star physics. Each student owns a well-defined problem; two projects have produced first-author preprints.</p></div>
+      <div class="rows">
+        <!-- EDIT: one row per student -->
+        <div class="row"><span class="when">PhD</span><div class="what"><b>Johann Fernandes</b><p>Fast eccentricity measurement for binary black holes with a time–frequency likelihood (<a href="https://arxiv.org/abs/2603.09150">arXiv:2603.09150</a>)</p></div></div>
+        <div class="row"><span class="when">PhD</span><div class="what"><b>Amlan</b><p>Joint hierarchical inference of population, cosmology and the neutron-star equation of state from dark binary neutron stars (ongoing)</p></div></div>
+        <div class="row"><span class="when">MSc</span><div class="what"><b>Soham Mitra</b><p>Constraining the equation of state with stacked post-merger signals (<a href="https://arxiv.org/abs/2505.21667">arXiv:2505.21667</a>)</p></div></div>
+        <div class="row"><span class="when">MSc</span><div class="what"><b>Abhishek Kulkarni</b><p>TOV equation and hierarchical inference</p></div></div>
+        <div class="row"><span class="when">MSc</span><div class="what"><b>Soumil Sahu</b><p>Bayesian formulation of the time–frequency eccentricity method</p></div></div>
+        <div class="row"><span class="when">B.Tech</span><div class="what"><b>Ashwin Suresh</b><p>Time–frequency tracks of eccentric higher-order modes</p></div></div>
+      </div>
+      <p class="note">Prospective students interested in gravitational waves, Bayesian inference or scientific machine learning are welcome to email me.</p>
+    </section>
+
+    <!-- TEACHING -->
+    <section id="teaching">
+      <div class="eyebrow">Teaching</div>
+      <h2>Teaching</h2>
+      <div class="prose"><p>I teach physics as the craft of building a model, computing its consequences and testing it against data. I teach in English and Hindi.</p></div>
+      <div class="approach">
+        <div><b>Phenomenon first</b><p>Open with something students can see or measure, such as a chirp in real LIGO data, then build the equations.</p></div>
+        <div><b>Compute early</b><p>Short Python notebooks let students solve, perturb and break the equations they learn.</p></div>
+        <div><b>Visible reasoning</b><p>An estimate before every calculation and an uncertainty with every answer.</p></div>
+        <div><b>One mini-project per course</b><p>Reproduce a known result, change one assumption, explain what happens.</p></div>
+      </div>
+      <div class="two">
+        <div class="pubgroup">
+          <h3>Experience</h3>
+          <div class="rows">
+            <div class="row"><span class="when">2024–2025</span><div class="what"><b>First-Year Physics Lab</b><p>Teaching assistant, IIT Bombay</p></div></div>
+            <div class="row"><span class="when">Fall 2023</span><div class="what"><b>Advanced Astrophysics</b><p>Teaching assistant, IIT Bombay</p></div></div>
+            <div class="row"><span class="when">2016–2023</span><div class="what"><b>Electricity and Magnetism</b><p>Teaching assistant, Washington State University</p></div></div>
+          </div>
+        </div>
+        <div class="pubgroup">
+          <h3>Proposed electives</h3>
+          <div class="rows">
+            <div class="row"><span class="when">UG elective</span><div class="what"><b>Gravitational Waves and Multi-Messenger Astronomy</b><p>Matched filtering, Fourier methods and parameter estimation on public LIGO data, with only a laptop</p></div></div>
+            <div class="row"><span class="when">PG elective</span><div class="what"><b>Bayesian Inference and Scientific Machine Learning</b><p>MCMC, nested sampling, simulation-based inference and physics-informed neural networks</p></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="pubgroup">
+        <h3>Courses I can teach</h3>
+        <div class="tags">
+          <span class="tag">Engineering Physics</span><span class="tag">Quantum Mechanics</span><span class="tag">Mathematical Methods</span><span class="tag">Nonlinear Dynamics</span><span class="tag">Numerical Analysis</span><span class="tag">System Modelling &amp; Simulation</span><span class="tag">Statistical Foundations for Data Science</span><span class="tag">Probabilistic Graphical Models</span><span class="tag">Time Series Analysis</span><span class="tag">Deep Learning</span><span class="tag">Astroinformatics</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- OUTREACH -->
+    <section id="outreach">
+      <div class="eyebrow">Outreach &amp; service</div>
+      <h2>Outreach and service</h2>
+      <div class="rows">
+        <div class="row"><span class="when">2024–2025</span><div class="what"><b>Gravitational Wave Open Data Workshop, IIT Bombay study hub</b><p>Organised the hub twice; participants learned to fetch LIGO data, search for signals and characterise sources.</p></div></div>
+        <div class="row"><span class="when">2024</span><div class="what"><b>TechConnect, IIT Bombay</b><p>Ran the LIGO–Virgo–KAGRA stall with table-top experiments on how gravitational waves are detected, and on the LIGO-India detector at Aundh.</p></div></div>
+        <div class="row"><span class="when">2018–2020</span><div class="what"><b>Secretary, Graduate Physics Club, WSU</b><p>Laser-maze events for families, visits to the LIGO Hanford control room, OSA–SPIE invited seminars, and school science visits.</p></div></div>
+        <div class="row"><span class="when">2015–2016</span><div class="what"><b>Notebook Drive, IISc</b><p>Science activities in semi-rural schools around Bengaluru to reduce dropout between primary and secondary school.</p></div></div>
+      </div>
+      <div class="pubgroup">
+        <h3>Professional</h3>
+        <ul class="plain">
+          <li>Member, LIGO–Virgo–KAGRA Collaboration (2023–present)</li>
+          <li>LIGO-India Scientific Collaboration, representative of the LIGO extreme-matter group</li>
+          <li>Reviewer, Journal of Astrophysics and Astronomy (2025–present)</li>
+          <li>Member, American Physical Society (2017–2018); OSA–SPIE Student Chapter, WSU (2018–2020)</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- CV -->
+    <section id="cv">
+      <div class="eyebrow">Experience &amp; education</div>
+      <h2>Experience and education</h2>
+      <div class="rows">
+        <div class="row"><span class="when">2025–present</span><div class="what"><b>ANRF Postdoctoral Fellow</b><p>Chennai Mathematical Institute</p></div></div>
+        <div class="row"><span class="when">2023–2025</span><div class="what"><b>Institute Postdoctoral Fellow</b><p>Department of Physics, IIT Bombay</p></div></div>
+        <div class="row"><span class="when">2016–2023</span><div class="what"><b>PhD, Physics</b><p>Washington State University, with Prof. Sukanta Bose and Prof. Michael McNeil Forbes</p></div></div>
+        <div class="row"><span class="when">2011–2016</span><div class="what"><b>BS–MS (Research), Physics</b><p>Indian Institute of Science, Bengaluru</p></div></div>
+      </div>
+      <div class="pubgroup">
+        <h3>Fellowships</h3>
+        <ul class="plain">
+          <li>ANRF Postdoctoral Fellowship (2025)</li>
+          <li>Institute Postdoctoral Fellowship, IIT Bombay (2023)</li>
+          <li>Kishore Vaigyanik Protsahan Yojana (KVPY) Fellowship, DST (2011)</li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <span>© 2026 Praveer Tiwari</span>
+    <!-- EDIT: change this date when you update the page -->
+    <span>Last updated November 2026</span>
+  </footer>
+</div>
+
+<script>
+/* Draws the chirp illustration at the top of the page. No need to edit. */
+(function () {
+  var c = document.getElementById("wave");
+  if (!c || !c.getContext) return;
+  function css(v) { return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
+  function draw() {
+    var dpr = window.devicePixelRatio || 1, w = c.clientWidth, h = c.clientHeight;
+    c.width = w * dpr; c.height = h * dpr;
+    var g = c.getContext("2d"); g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, w, h);
+    var mid = h / 2, tm = 0.86, n = Math.max(600, Math.floor(w * 2));
+    g.strokeStyle = css("--rule"); g.lineWidth = 1;
+    g.beginPath(); g.moveTo(0, mid); g.lineTo(w, mid); g.stroke();
+    var accent = css("--accent"), signal = css("--signal");
+    g.lineWidth = 1.6; g.lineJoin = "round";
+    var K = 120, T0 = 0.02, A = 0.35;
+    function phase(tau) { return -2 * K * Math.pow(tau, 0.625); }
+    var p0 = phase(tm + T0), pm = phase(T0);
+    var fm = 1.25 * K * Math.pow(T0, -0.375);          /* frequency at merger */
+    var am = Math.min(1, A * Math.pow(T0, -0.25));      /* amplitude at merger */
+    var ringing = false;
+    g.beginPath(); g.strokeStyle = accent;
+    for (var i = 0; i <= n; i++) {
+      var x = i / n, y;
+      if (x < tm) {
+        var tau = (tm - x) + T0;
+        y = Math.min(1, A * Math.pow(tau, -0.25)) * Math.cos(phase(tau) - p0);
+      } else {
+        if (!ringing) { g.stroke(); g.beginPath(); g.strokeStyle = signal; g.moveTo(x * w, mid - am * Math.cos(pm - p0) * mid * 0.85); ringing = true; }
+        var t = x - tm;
+        y = am * Math.exp(-t * 38) * Math.cos(pm - p0 + fm * t);
+      }
+      if (i === 0) g.moveTo(x * w, mid - y * mid * 0.85); else g.lineTo(x * w, mid - y * mid * 0.85);
+    }
+    g.stroke();
+  }
+  draw();
+  window.addEventListener("resize", draw);
+  if (window.matchMedia) {
+    var mq = window.matchMedia("(prefers-color-scheme: dark)");
+    if (mq.addEventListener) mq.addEventListener("change", draw);
+  }
+  new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+})();
+</script>
+</body>
+</html>
